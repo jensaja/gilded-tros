@@ -65,4 +65,89 @@ class GildedTrosTest {
         assertEquals(0, testItem.quality);
     }
 
+    @Test void whenUpdateQualityAndSellInIs0ThenSellInContinuesToDecreaseToNegative() {
+        Item testItem = ItemFactory.createTestItemWithZeroSellIn();
+
+        runUpdateQualityForSingleItem(testItem);
+        assertEquals(-1, testItem.sellIn);
+    }
+
+    @Test
+    public void whenUpdateQualityOfGoodWineThenQualityIncreases() {
+        Item testWine = ItemFactory.createTestGoodWine();
+
+        runUpdateQualityForSingleItem(testWine);
+        assertEquals(ItemFactory.TEST_ITEM_QUALITY + 1, testWine.quality);
+    }
+
+    @Test
+    public void whenUpdateQualityOfGoodWineThenQualityGetsNoHigherThan50() {
+        Item testWine = ItemFactory.createTestGoodWine();
+        testWine.quality = 49;
+
+        // first update: quality was 49 --> gets updated to 50
+        runUpdateQualityForSingleItem(testWine);
+        assertEquals(50, testWine.quality);
+
+        // second update: quality was 50 --> quality doesn't get any higher
+        runUpdateQualityForSingleItem(testWine);
+        assertEquals(50, testWine.quality);
+    }
+
+    @Test
+    public void whenUpdateQualityOfGoodWineWithSellIn0ThenQualityRemains50() {
+        Item testWine = ItemFactory.createTestGoodWine();
+        testWine.sellIn = 0;
+        testWine.quality = 50;
+
+        // first update: quality was 49 --> gets updated to 50
+        runUpdateQualityForSingleItem(testWine);
+        assertEquals(50, testWine.quality);
+
+        // second update: quality was 50 --> quality doesn't get any higher
+        runUpdateQualityForSingleItem(testWine);
+        assertEquals(50, testWine.quality);
+    }
+
+    @Test
+    public void whenUpdateQualityOfBDawgKeychainThenNeitherSellInNorQualityGetsChanged() {
+        Item testKeychain = ItemFactory.createTestBDawgKeychain();
+
+        runUpdateQualityForSingleItem(testKeychain);
+        assertEquals(ItemFactory.TEST_ITEM_SELLIN, testKeychain.sellIn);
+        assertEquals(ItemFactory.TEST_ITEM_QUALITY, testKeychain.quality);
+    }
+
+    private void runUpdateQualityAndAssertThatQualityHasIncreased(Item testItem, int qualityIncrease) {
+        int qualityBeforeUpdate = testItem.quality;
+        runUpdateQualityForSingleItem(testItem);
+        assertEquals(qualityBeforeUpdate + qualityIncrease, testItem.quality);
+    }
+
+    @Test
+    public void whenUpdateQualityOfBackstagePassesThenQualityChangesNormallyUpTo11DaysToTheConcert() {
+        Item testBackstagePass = ItemFactory.createTestBackstagePass(11);
+        runUpdateQualityAndAssertThatQualityHasIncreased(testBackstagePass, 1);
+    }
+
+    @Test
+    public void whenUpdateQualityOfBackstagePassesThenQualityIncreasesByTwoWhen10DaysOrLessToTheConcert() {
+        Item testBackstagePass = ItemFactory.createTestBackstagePass(9);
+        runUpdateQualityAndAssertThatQualityHasIncreased(testBackstagePass, 2);
+    }
+
+    @Test
+    public void whenUpdateQualityOfBackstagePassesThenQualityIncreasesByThreeWhen5DaysOrLessToTheConcert() {
+        Item testBackstagePass = ItemFactory.createTestBackstagePass(5);
+        runUpdateQualityAndAssertThatQualityHasIncreased(testBackstagePass, 3);
+    }
+
+    @Test
+    public void whenUpdateQualityOfBackstagePassesThenQualityDropsToZeroAfterConcert() {
+        Item testBackstagePass = ItemFactory.createTestBackstagePass(0);
+
+        runUpdateQualityForSingleItem(testBackstagePass);
+        assertEquals(0, testBackstagePass.quality);
+    }
+
 }
