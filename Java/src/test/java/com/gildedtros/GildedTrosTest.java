@@ -1,5 +1,6 @@
 package com.gildedtros;
 
+import com.gildedtros.factory.ItemFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,10 +9,9 @@ class GildedTrosTest {
 
     @Test
     void whenUpdateQualityThenItemsNameDoesntChange() {
-        Item[] items = new Item[] { new Item("foo", 0, 0) };
-        GildedTros app = new GildedTros(items);
+        GildedTros app = new GildedTros(new Item[]{ItemFactory.createTestItem()});
         app.updateQuality();
-        assertEquals("foo", app.items[0].name);
+        assertEquals(ItemFactory.TEST_ITEM_NAME, app.items[0].name);
     }
 
 }
