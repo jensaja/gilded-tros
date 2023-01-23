@@ -13,4 +13,8 @@ public class ItemFactory {
         return new Item(TEST_ITEM_NAME, TEST_ITEM_SELLIN, TEST_ITEM_QUALITY);
     }
 
+    public static Item createTestItemWithZeroQuality() {
+        return new Item(TEST_ITEM_NAME, TEST_ITEM_SELLIN, 0);
+    }
+
 }
