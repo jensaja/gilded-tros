@@ -11,7 +11,10 @@ public class ItemUpdaterFactory {
          "Good Wine", WineUpdater::new,
          "B-DAWG Keychain", LegendaryItemUpdater::new,
          "Backstage passes for Re:Factor", BackstagePassUpdater::new,
-         "Backstage passes for HAXX", BackstagePassUpdater::new
+         "Backstage passes for HAXX", BackstagePassUpdater::new,
+         "Duplicate Code", SmellyItemUpdater::new,
+         "Long Methods", SmellyItemUpdater::new,
+         "Ugly Variable Names", SmellyItemUpdater::new
     );
 
     public static ItemUpdater getUpdaterForItem(Item item) {

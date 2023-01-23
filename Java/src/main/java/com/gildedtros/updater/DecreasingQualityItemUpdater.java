@@ -9,9 +9,11 @@ public abstract class DecreasingQualityItemUpdater extends ItemUpdater {
     }
 
     protected void decreaseQuality() {
-        if (item.quality > 0) {
-            item.quality--;
-        }
+        decreaseQuality(1);
+    }
+
+    protected void decreaseQuality(int amount){
+        item.quality = Math.max(0, item.quality - amount);
     }
 
 }
