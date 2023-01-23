@@ -81,6 +81,15 @@ class GildedTrosTest {
     }
 
     @Test
+    public void whenUpdateQualityOfGoodWineAndSellByDateHasPassedThenQualityIncreasesTwiceAsFast() {
+        Item testWine = ItemFactory.createTestGoodWine();
+        testWine.sellIn = 0;
+
+        runUpdateQualityForSingleItem(testWine);
+        assertEquals(ItemFactory.TEST_ITEM_QUALITY + 2, testWine.quality);
+    }
+
+    @Test
     public void whenUpdateQualityOfGoodWineThenQualityGetsNoHigherThan50() {
         Item testWine = ItemFactory.createTestGoodWine();
         testWine.quality = 49;
