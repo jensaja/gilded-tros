@@ -25,17 +25,15 @@ class GildedTros {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (!item.name.equals("Good Wine")
-                    && !item.name.equals("Backstage passes for Re:Factor")
-                    && !item.name.equals("Backstage passes for HAXX"))
-            {
-                if (!item.name.equals("B-DAWG Keychain")) {
-                    decreaseQuality(item);
-                }
-            } else {
-                increaseQuality(item);
-
-                if (item.name.equals("Backstage passes for Re:Factor") || item.name.equals("Backstage passes for HAXX") ) {
+            switch (item.name){
+                case "Good Wine":
+                    increaseQuality(item);
+                    break;
+                case "B-DAWG Keychain":
+                    break;
+                case "Backstage passes for Re:Factor":
+                case "Backstage passes for HAXX":
+                    increaseQuality(item);
                     if (item.sellIn < 11) {
                         increaseQuality(item);
                     }
@@ -43,7 +41,9 @@ class GildedTros {
                     if (item.sellIn < 6) {
                         increaseQuality(item);
                     }
-                }
+                    break;
+                default:
+                    decreaseQuality(item);
             }
 
             if (!item.name.equals("B-DAWG Keychain")) {
@@ -51,18 +51,18 @@ class GildedTros {
             }
 
             if (item.sellIn < 0) {
-                if (!item.name.equals("Good Wine")) {
-                    if (!item.name.equals("Backstage passes for Re:Factor") && !item.name.equals("Backstage passes for HAXX")) {
-                        if (item.quality > 0) {
-                            if (!item.name.equals("B-DAWG Keychain")) {
-                                decreaseQuality(item);
-                            }
-                        }
-                    } else {
+                switch (item.name) {
+                    case "Good Wine":
+                        increaseQuality(item);
+                        break;
+                    case "Backstage passes for Re:Factor":
+                    case "Backstage passes for HAXX":
                         item.quality = 0;
-                    }
-                } else {
-                    increaseQuality(item);
+                        break;
+                    case "B-DAWG Keychain":
+                        break;
+                    default:
+                        decreaseQuality(item);
                 }
             }
         }
