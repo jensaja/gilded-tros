@@ -175,4 +175,15 @@ class GildedTrosTest {
         runUpdateQualityForSingleItem(smellyItem);
         assertEquals(ItemFactory.TEST_ITEM_QUALITY - 4, smellyItem.quality);
     }
+
+    @Test
+    public void whenUpdateQualityOfSmellyItemThenQualityGetsNeverNegative() {
+        Item smellyItem = ItemFactory.createTestSmellyItem();
+        smellyItem.sellIn = 0;
+        smellyItem.quality = 3;
+
+        runUpdateQualityForSingleItem(smellyItem);
+        assertEquals(0, smellyItem.quality);
+    }
+
 }
